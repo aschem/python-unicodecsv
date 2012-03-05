@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import csv
+import unicodedata
 
 #http://semver.org/
 VERSION = (0, 9, 0)
@@ -104,7 +105,10 @@ class UnicodeReader(object):
             if isinstance(value, float):
                 results.append(value)
             else:
-                results.append(unicode(value, self.encoding))
+                try:
+                    results.append(unicode(value, self.encoding))
+                except UnicodeDecodeError:
+                    results.append("")
         return results
 
     def __iter__(self):
